@@ -1,0 +1,66 @@
+version: "3.1"
+
+services:
+    database:
+        image: mysql:8.0
+        container_name: mysqldb
+        hostname: mysqldb
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: tHezUfru#7E=e2Ud#
+            MYSQL_DATABASE: services
+            MYSQL_USER: service
+            MYSQL_PASSWORD: PASSWD
+        ports:
+            - 3306:3306
+        volumes:
+            - ./databases/storage/mysqldb:/var/lib/mysql
+
+    redis:
+        image: redis:lastest
+        container_name: cache
+        hostname: "${HOST_NAME}"
+
+    php.test:
+        build:
+            context: .
+            dockerfile: dockerfile/php/74/Dockerfile
+        container_name: "php.${HOST_NAME}"
+        hostname: "app.${HOST_NAME}"
+        user: ":${HOST_USER_ID}"
+        restart: always
+        environment:
+            ACCOUNT: "${HOST_NAME}"
+            DATE_TIMEZONE: America/Mexico_City
+            REQUEST_TIMEOUT: 60
+            MAX_INPUT_TIME: 60
+            MEMORY_LIMIT: 128M
+            POST_MAX_SIZE: 30M
+            DOCKER_USER: www-data
+            DOCKER_GROUP: www-data
+            HOST_USER_ID: ${HOST_USER_ID}
+            HOST_GROUP_ID: ${HOST_GROUP_ID}
+        depends_on:
+            - database
+            - redis
+        ports:
+            - 8080:80
+            - 4433:443
+
+    nginx:
+        build:
+            context: .
+            dockerfile: dockerfile/nginx/Dockerfile
+        container_name: "nginx"
+        hostname: nginx
+        restart: always
+        environment:
+            DOCKER_USER: www-data
+            DOCKER_GROUP: www-data
+            HOST_USER_ID: ${HOST_USER_ID}
+            HOST_GROUP_ID: ${HOST_GROUP_ID}
+        ports:
+            - 80:80
+            - 443:443
+
+

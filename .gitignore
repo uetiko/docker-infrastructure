@@ -1,0 +1,8 @@
+**/.*swp
+shared/server/ssl/*
+shared/server/conf/*
+shared/server/log/*
+shared/web/
+databases/*
+scripts/.*
+.idea/
