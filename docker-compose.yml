@@ -17,14 +17,14 @@ services:
             - ./databases/storage/mysqldb:/var/lib/mysql
 
     redis:
-        image: redis:lastest
+        image: redis
         container_name: cache
         hostname: "${HOST_NAME}"
 
     php.test:
         build:
             context: .
-            dockerfile: dockerfile/php/74/Dockerfile
+            dockerfile: ./dockerfiles/php/74/Dockerfile
         container_name: "php.${HOST_NAME}"
         hostname: "php.${HOST_NAME}"
         user: ":${HOST_USER_ID}"
@@ -48,6 +48,7 @@ services:
             - 4433:443
         volumes:
             - ./shared/server/ssl:/etc/ssl/certs/local:rw
+            - ./shared/projects/backend/:/var/www/:rw
 
     web:
         build:
@@ -63,11 +64,12 @@ services:
             - 4200:4200
         volumes:
             - ./shared/web/ssl:/etc/ssl/certs/local:rw
+            - ./shared/projects/frontend/:/var/www:rw
 
     nginx:
         build:
             context: .
-            dockerfile: dockerfile/nginx/Dockerfile
+            dockerfile: ./dockerfiles/nginx/Dockerfile
         container_name: "nginx"
         hostname: nginx
         restart: always

@@ -5,7 +5,7 @@ RUN apt-get update
 RUN apt-get install -y --no-install-recommends \
         wget curl zip git zsh
 
-RUN apt-clean
+RUN apt autoremove
 
 RUN set -uex;
 
