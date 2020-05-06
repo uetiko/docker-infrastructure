@@ -66,6 +66,19 @@ services:
             - ./shared/web/ssl:/etc/ssl/certs/local:rw
             - ./shared/projects/frontend/:/var/www:rw
 
+    python:
+        image: python:3.8.2
+        container_name: "python.${HOST_NAME}"
+        hostname: "py.${HOST_NAME}"
+        restart: always
+        user: ":${HOST_USER_ID}"
+        depends_on:
+            - database
+            - redis
+        volumes:
+            - ./shared/projects/backend/:/opt/source/:rw
+    
+
     nginx:
         build:
             context: .
