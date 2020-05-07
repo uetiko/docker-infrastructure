@@ -6,6 +6,7 @@ services:
         container_name: mysqldb
         hostname: mysqldb
         restart: always
+        user: ":${HOST_USER_ID}"
         environment:
             MYSQL_ROOT_PASSWORD: tHezUfru#7E=e2Ud#
             MYSQL_DATABASE: services
@@ -34,7 +35,6 @@ services:
             DATE_TIMEZONE: America/Mexico_City
             REQUEST_TIMEOUT: 60
             MAX_INPUT_TIME: 60
-            MEMORY_LIMIT: 128M
             POST_MAX_SIZE: 30M
             DOCKER_USER: www-data
             DOCKER_GROUP: www-data
@@ -54,30 +54,45 @@ services:
         build:
             context: .
             dockerfile: dockerfiles/web/angular/Dockerfile
-        container_name: "web.${HOST_NAME}"
+        container_name: "frontend.${HOST_NAME}"
         hostname: "frontend.${HOST_NAME}"
         user: ":${HOST_USER_ID}"
         restart: always
+        environment:
+            ACCOUNT: "${HOST_NAME}"
+            DOCKER_USER: www-data
+            DOCKER_GROUP: www-data
+            HOST_USER_ID: ${HOST_USER_ID}
+            HOST_GROUP_ID: ${HOST_GROUP_ID}
         depends_on:
             - redis
         ports:
             - 4200:4200
+        tty: true
         volumes:
             - ./shared/web/ssl:/etc/ssl/certs/local:rw
             - ./shared/projects/frontend/:/var/www:rw
 
     python:
-        image: python:3.8.2
+        build: 
+            context: .
+            dockerfile: ./dockerfiles/python/Dockerfile
         container_name: "python.${HOST_NAME}"
-        hostname: "py.${HOST_NAME}"
-        restart: always
+        hostname: "python.${HOST_NAME}"
         user: ":${HOST_USER_ID}"
+        restart: always
+        environment:
+            ACCOUNT: "${HOST_NAME}"
+            DOCKER_USER: www-data
+            DOCKER_GROUP: www-data
+            HOST_USER_ID: ${HOST_USER_ID}
+            HOST_GROUP_ID: ${HOST_GROUP_ID}
+        tty: true
         depends_on:
             - database
             - redis
         volumes:
             - ./shared/projects/backend/:/opt/source/:rw
-    
 
     nginx:
         build:

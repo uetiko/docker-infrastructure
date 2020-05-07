@@ -1,4 +1,4 @@
-FROM node:12.16.2
+FROM python:3.8.2
 
 WORKDIR /opt/source
 

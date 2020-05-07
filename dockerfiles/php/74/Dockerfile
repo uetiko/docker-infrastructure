@@ -90,5 +90,3 @@ RUN pecl install redis-5.1.1
 RUN pecl install xdebug-2.8.1
 
 RUN docker-php-ext-enable redis xdebug
-
-
