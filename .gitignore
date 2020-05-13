@@ -6,3 +6,5 @@ shared/web/
 databases/*
 scripts/.*
 .idea/
+shared/
+dockers.code-workspace
