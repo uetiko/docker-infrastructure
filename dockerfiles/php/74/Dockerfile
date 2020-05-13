@@ -5,7 +5,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN apt-get update
 
 RUN apt-get install -y --no-install-recommends \
-        wget curl zip git zsh \
+        wget curl zip git zsh vim \
         apt-utils \
         sendmail-bin \
         sendmail \
@@ -77,6 +77,7 @@ RUN cd / &&  rm -rf /tmp/libsodium &&  pecl install -o -f libsodium
 RUN set -uex;
 
 RUN wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh;
+
 RUN sh ./install.sh; 
 
 RUN rm ./install.sh
