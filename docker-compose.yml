@@ -71,7 +71,8 @@ services:
         tty: true
         volumes:
             - ./shared/web/ssl:/etc/ssl/certs/local:rw
-            - ./shared/projects/frontend/:/var/www:rw
+            - ./shared/projects/frontend/node/:/var/www:rw
+            - ./shared/projects/frontend/static/html/:/var/html.${HOST_NAME}/www/:rw
 
     python:
         build: 
@@ -92,7 +93,7 @@ services:
             - database
             - redis
         volumes:
-            - ./shared/projects/backend/:/opt/source/:rw
+            - ./shared/projects/backend/python/:/opt/source/:rw
 
     nginx:
         build:
@@ -116,5 +117,6 @@ services:
             - 443:443
         volumes:
             - ./shared/projects/backend/php/info/:/var/info.${HOST_NAME}/www/:rw
+            - ./shared/projects/frontend/static/html/:/var/html.${HOST_NAME}/www/:rw
             - ./etc/infrastructure/nginx/conf.d/:/etc/nginx/conf.d/
             - ./shared/server/ssl/:/etc/ssl/certs/local:rw
