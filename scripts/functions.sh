@@ -39,12 +39,6 @@ function create_cert(){
     -out ${SSL_PATH}/${SUBDOMAIN}.crt
 }
 
-function create_cert_fast(){
-  openssl req -x509 -nodes -days 365 -newkey rsa:4096 \
-    -keyout ${SSL_PATH}/${SUBDOMAIN}.key \
-    -out ${SSL_PATH}/${SUBDOMAIN}.crt
-}
-
 function move_nginx_block() {
   cp infrastructure/nginx/server/block/site.conf ${CONF_PATH}/${SUBDOMAIN}.conf
 }
