@@ -8,7 +8,7 @@ function main() {
   readData
   create_dir
   create_cert
-  move_nginx_block
+  select_service
   edit_nginx_block
   move_nginx_block_to_infra
 }

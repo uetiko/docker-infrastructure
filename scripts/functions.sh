@@ -58,3 +58,35 @@ function edit_nginx_block(){
   sed -i -e "s/domain/${HOST_NAME}/g" \
     ${CONF_PATH}/${SUBDOMAIN}.conf
 }
+
+function select_service(){
+  while :
+  do
+    echo -e "\e[92m
+      Provide the service name:
+      php
+      python
+      node
+      static
+      \e[39m"
+    read option
+    case $option in
+      php)
+        cp infrastructure/nginx/server/block/php.conf ${CONF_PATH}/${SUBDOMAIN}.conf
+        break
+        ;;
+      node)
+        cp infrastructure/nginx/server/block/node.conf ${CONF_PATH}/${SUBDOMAIN}.conf
+        break
+        ;;
+      static)
+        cp infrastructure/nginx/server/block/static.conf ${CONF_PATH}/${SUBDOMAIN}.conf
+        break
+        ;;
+      python)
+        cp infrastructure/nginx/server/block/python.conf ${CONF_PATH}/${SUBDOMAIN}.conf
+        break
+        ;;
+    esac
+  done
+}
