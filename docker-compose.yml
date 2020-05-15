@@ -73,6 +73,7 @@ services:
             - ./shared/web/ssl:/etc/ssl/certs/local:rw
             - ./shared/projects/frontend/node/:/var/www:rw
             - ./shared/projects/frontend/static/html/:/var/html.${HOST_NAME}/www/:rw
+            - ./shared/projects/frontend/node/angular/:/var/angular.${HOST_NAME}/www/:rw
 
     python:
         build: 
@@ -118,5 +119,6 @@ services:
         volumes:
             - ./shared/projects/backend/php/info/:/var/info.${HOST_NAME}/www/:rw
             - ./shared/projects/frontend/static/html/:/var/html.${HOST_NAME}/www/:rw
+            - ./shared/projects/frontend/node/angular/:/var/angular.${HOST_NAME}/www/:rw
             - ./etc/infrastructure/nginx/conf.d/:/etc/nginx/conf.d/
             - ./shared/server/ssl/:/etc/ssl/certs/local:rw
