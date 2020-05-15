@@ -90,3 +90,7 @@ function select_service(){
     esac
   done
 }
+
+function write_host(){
+  su -c "echo \"127.0.0.1       ${SUBDOMAIN}.${HOST_NAME}\" >> /etc/hosts"
+}
